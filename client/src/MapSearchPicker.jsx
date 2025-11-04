@@ -1,0 +1,1 @@
+/* The full MapSearchPicker.jsx content I provided earlier goes here */
