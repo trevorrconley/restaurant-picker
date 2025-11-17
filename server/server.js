@@ -4,14 +4,19 @@ const {
   getWeightedRestaurants,
   selectWeighted,
   markVisited,
-  addPlannedVisits
+  addPlannedVisits,
+  getAllRestaurants,
+  getAllVisits,
 } = require('./restaurantSelector');
 const {
   createUser,
   addRestaurant
 } = require('./user.js');
 
+const cors = require('cors');
+
 const app = express();
+app.use(cors()); // ✅ enable CORS for all routes
 app.use(bodyParser.json());
 
 // Suggest a restaurant
@@ -20,6 +25,7 @@ app.get('/restaurants/suggest/:userId', async (req, res) => {
   try {
     const weightedRestaurants = await getWeightedRestaurants(userId);
     const selected = selectWeighted(weightedRestaurants);
+    console.log(selected.name);
     res.json({ restaurantId: selected.id, name: selected.name });
   } catch (err) {
     console.error(err);
@@ -96,6 +102,27 @@ app.post('/restaurant', async (req, res) => {
   } catch (err) {
     console.error('Error creating restaurant:', err);
     res.status(500).json({ error: 'Error creating restaurant' });
+  }
+});
+
+// Get all restaurants
+app.get('/restaurants', async (req, res) => {
+  try {
+    const restaurants = await getAllRestaurants();
+    console.log(restaurants);
+    res.json(restaurants);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch restaurants' });
+  }
+});
+
+// Get all visits
+app.get('/visits', async (req, res) => {
+  try {
+    const restaurants = await getAllVisits();
+    res.json(restaurants);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch visits' });
   }
 });
 

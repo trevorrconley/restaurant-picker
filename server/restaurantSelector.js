@@ -79,9 +79,44 @@ async function addPlannedVisits(userId, restaurantIds) {
   await Promise.all(queries);
 }
 
+async function getAllRestaurants() {
+  const query = `
+    SELECT r.name, r.cuisine
+    FROM restaurants r
+    ORDER BY r.name ASC
+  `;
+
+  try {
+    const result = await pool.query(query);
+    return result.rows; // returns an array of restaurants
+  } catch (err) {
+    console.error('Error fetching restaurants from db:', err);
+    throw err;
+  }
+}
+
+async function getAllVisits() {
+  const query = `
+    SELECT r.name, r.cuisine, h.visited_at
+    FROM restaurants r
+    JOIN user_history h on r.restaurant_id = h.restaurant_id
+    ORDER BY h.visited_at ASC
+  `;
+
+  try {
+    const result = await pool.query(query);
+    return result.rows; // returns an array of restaurants
+  } catch (err) {
+    console.error('Error fetching restaurants from db:', err);
+    throw err;
+  }
+}
+
 module.exports = {
   getWeightedRestaurants,
   selectWeighted,
   markVisited,
-  addPlannedVisits
+  addPlannedVisits,
+  getAllRestaurants,
+  getAllVisits,
 };
