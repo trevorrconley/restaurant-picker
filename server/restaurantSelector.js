@@ -1,23 +1,29 @@
 const pool = require('./db');
 
 // Fetch restaurants with recency weights
-async function getWeightedRestaurants(userId, decayFactor = 0.8) {
-  const query = `
-    SELECT r.restaurant_id, r.name,
-           EXTRACT(EPOCH FROM COALESCE(MAX(h.visited_at), '1970-01-01')) AS last_visit
-    FROM restaurants r
-    LEFT JOIN user_history h 
-      ON r.restaurant_id = h.restaurant_id AND h.user_id = $1
-    GROUP BY r.restaurant_id
-  `;
+async function getWeightedRestaurants(userId, cuisine, byCuisine, decayFactor = 0.8) {
+    const query = `
+      SELECT r.name,
+            r.restaurant_id,
+            r.cuisine,
+            EXTRACT(EPOCH FROM COALESCE(MAX(h.visited_at), '1970-01-01')) AS last_visit
+      FROM restaurants r
+      LEFT JOIN user_history h
+        ON r.restaurant_id = h.restaurant_id
+      AND h.user_id = $1
+      WHERE ($2::text IS NULL OR LOWER(r.cuisine) = LOWER($2::text))
+      GROUP BY r.restaurant_id, r.name, r.cuisine
+      ORDER BY r.name ASC;
+    `;
 
-  const { rows } = await pool.query(query, [userId]);
+  const params = [userId, cuisine];
 
+  const { rows } = await pool.query(query, params);
   const now = Date.now() / 1000; // seconds
   return rows.map(row => {
     const secondsSinceVisit = now - row.last_visit;
     const weight = Math.pow(decayFactor, secondsSinceVisit / (24 * 3600)); // decay per day
-    return { id: row.restaurant_id, name: row.name, weight };
+    return { id: row.restaurant_id, name: row.name, cuisine: row.cuisine, weight };
   });
 }
 

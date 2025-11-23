@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const {
   getWeightedRestaurants,
   selectWeighted,
@@ -17,16 +16,21 @@ const cors = require('cors');
 
 const app = express();
 app.use(cors()); // ✅ enable CORS for all routes
-app.use(bodyParser.json());
+app.use(express.json());
 
 // Suggest a restaurant
 app.get('/restaurants/suggest/:userId', async (req, res) => {
   const userId = parseInt(req.params.userId);
+  const cuisine = req.body.cuisine;
+  const byCuisine = req.body.byCuisine;
   try {
-    const weightedRestaurants = await getWeightedRestaurants(userId);
+    const weightedRestaurants = await getWeightedRestaurants(userId, cuisine, byCuisine);
     const selected = selectWeighted(weightedRestaurants);
-    console.log(selected.name);
-    res.json({ restaurantId: selected.id, name: selected.name });
+    if (byCuisine) {
+      res.json({ cuisine: selected.cuisine });
+    } else {
+      res.json({ restaurantId: selected.id, name: selected.name });
+    }
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
