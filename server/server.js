@@ -29,7 +29,11 @@ app.get('/restaurants/suggest/:userId', async (req, res) => {
     if (byCuisine) {
       res.json({ cuisine: selected.cuisine });
     } else {
+      if (selected === undefined) {
+        res.json({ cuisine: `No planned visits matching ${cuisine}` });
+      } else {
       res.json({ restaurantId: selected.id, name: selected.name });
+      }
     }
   } catch (err) {
     console.error(err);
