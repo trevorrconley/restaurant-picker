@@ -27,11 +27,10 @@ CREATE TABLE user_history (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
--- Optional: Planned visits
+-- Planned visits
 CREATE TABLE user_planned_visits (
     user_id INT NOT NULL,
     restaurant_id INT NOT NULL,
-    planned_at TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY(user_id, restaurant_id),
     FOREIGN KEY (restaurant_id) REFERENCES restaurants(restaurant_id)
 );

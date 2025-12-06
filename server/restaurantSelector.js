@@ -3,16 +3,20 @@ const pool = require('./db');
 // Fetch restaurants with recency weights
 async function getWeightedRestaurants(userId, cuisine, byCuisine, decayFactor = 0.8) {
     const query = `
-      SELECT r.name,
-            r.restaurant_id,
-            r.cuisine,
-            EXTRACT(EPOCH FROM COALESCE(MAX(h.visited_at), '1970-01-01')) AS last_visit
+      SELECT
+        r.name,
+        r.restaurant_id,
+        r.cuisine,
+      EXTRACT(EPOCH FROM MAX(h.visited_at)) AS last_visit
       FROM restaurants r
+      INNER JOIN user_planned_visits upv
+        ON upv.restaurant_id = r.restaurant_id
+        AND upv.user_id = $1
       LEFT JOIN user_history h
-        ON r.restaurant_id = h.restaurant_id
-      AND h.user_id = $1
-      WHERE ($2::text IS NULL OR LOWER(r.cuisine) = LOWER($2::text))
-      GROUP BY r.restaurant_id, r.name, r.cuisine
+        ON h.restaurant_id = r.restaurant_id
+        AND h.user_id = $1
+      WHERE ($2::text IS NULL OR r.cuisine ILIKE $2::text)
+      GROUP BY r.restaurant_id
       ORDER BY r.name ASC;
     `;
 
