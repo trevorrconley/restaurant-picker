@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Text, FlatList, ActivityIndicator } from 'react-native';
+import { Text, FlatList, ActivityIndicator, Alert, TouchableOpacity} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Restaurant } from '@/components/restaurant';
-import { styles } from '@/styles/global';
+import { styles, buttons } from '@/styles/global';
+import { IconSymbol } from '@/components/ui/icon-symbol';
+import { router } from 'expo-router';
 
-const API_URL = 'http://192.168.68.128:3000/visits'; // 👈 replace with your LAN IP
+const API_URL = `${process.env.PUBLIC_API_URL}/visits`; // 👈 replace with your LAN IP
 
 export default function Visit() {
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const handlePress = () => {
+    router.push("../visit-modal");
+  };
 
   useEffect(() => {
     const fetchVisits = async () => {
@@ -43,6 +50,9 @@ export default function Visit() {
         )}
       ListEmptyComponent={<Text style={styles.empty}>No visits found</Text>}
       />
+    <TouchableOpacity style={buttons.add} onPress={handlePress}>
+      <IconSymbol name="plus" size={28} color="white" />
+    </TouchableOpacity>
     </SafeAreaView>
   );
 }

@@ -20,6 +20,8 @@ const MAPPING = {
   'chevron.right': 'chevron-right',
   'fork.knife': 'local-restaurant',
   'calendar': 'edit-calendar',
+  'plus': 'add',
+  'checkmark.circle': 'check-circle',
  } as unknown as IconMapping;
 
 /**

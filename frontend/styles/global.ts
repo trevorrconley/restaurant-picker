@@ -26,3 +26,38 @@ export const styles = StyleSheet.create({
   cuisine: bastRestaurant,
   lastVisit: bastRestaurant,
 });
+
+export const buttons = StyleSheet.create({
+  add: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    backgroundColor: "#cccccc",
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 5, // Android shadow
+    shadowColor: "#000", // iOS shadow
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+  },
+  leftButton: {
+    flex: 1,
+    paddingVertical: 14,
+    alignItems: "center",
+  },
+
+  rightButton: {
+    flex: 1,
+    paddingVertical: 14,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "600",
+    fontSize: 16,
+  },
+});
