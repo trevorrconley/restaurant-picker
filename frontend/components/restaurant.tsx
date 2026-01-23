@@ -2,8 +2,16 @@ import { styles } from "@/styles/global";
 import { View, Text, Image } from "react-native";
 import { cuisineImages } from "../app/images/cuisineImages";
 
+console.log("cuisineImages", cuisineImages);
+
 export function Restaurant({ restaurant }) {
-  const cuisineKey = restaurant.cuisine?.toLowerCase();
+  let cuisineKey = normalizeCuisine(restaurant.cuisine);
+
+  if (!cuisineKey || !cuisineImages[cuisineKey]) {
+    cuisineKey = "default";
+  }
+
+  // const imageSource = normalizeCuisine(cuisineImages[cuisineKey]) || cuisineImages.default;
   const imageSource = cuisineImages[cuisineKey] || cuisineImages.default;
 
   return (
@@ -25,4 +33,24 @@ export function Restaurant({ restaurant }) {
       </View>
     </View>
   );
-}
+};
+
+// function normalizeCuisine(cuisine) {
+//   const value = cuisine != null ? String(cuisine).toLowerCase().trim() : undefined;
+
+//   if (value === "sandwiches") return "sandwich";
+
+//   console.log(value);
+
+//   return value;
+// }
+
+function normalizeCuisine(cuisine) {
+  if (cuisine == null) return undefined;
+
+  const value = String(cuisine).toLowerCase().trim();
+
+  if (value === "sandwiches") return "sandwich";
+
+  return value;
+};

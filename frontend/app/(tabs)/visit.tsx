@@ -6,7 +6,7 @@ import { styles, buttons } from '@/styles/global';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { router } from 'expo-router';
 
-const API_URL = `${process.env.PUBLIC_API_URL}/visits`; // 👈 replace with your LAN IP
+const API_URL = `${process.env.EXPO_PUBLIC_API_BASE_URL}/visits`; // 👈 replace with your LAN IP
 
 export default function Visit() {
   const [restaurants, setRestaurants] = useState([]);

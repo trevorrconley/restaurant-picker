@@ -6,7 +6,7 @@ import { styles, buttons } from '@/styles/global';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { router } from 'expo-router';
 
-const API_URL = `${process.env.PUBLIC_API_URL}/restaurants`;
+const API_URL = `${process.env.EXPO_PUBLIC_API_BASE_URL}/restaurants`;
 
 export default function HomeScreen() {
   const [restaurants, setRestaurants] = useState([]);

@@ -3,8 +3,8 @@ import { StyleSheet, Button, View, Pressable, Text } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { router } from 'expo-router';
-import { buttons } from "@/styles/global";
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { buttons, modals } from "@/styles/global";
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export const modal = true
 
@@ -12,8 +12,11 @@ export default function RestaurantModal() {
   const insets = useSafeAreaInsets();
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="title">This is a modal</ThemedText>
+    <ThemedView style={modals.container}>
+      <SafeAreaView>
+            <Text style={modals.restaurantName}>Retaurant Name</Text>
+            <Text style={modals.restaurantCuisine}>Restaruant Cuisine</Text>
+      </SafeAreaView>
       <View
         style={[
           styles.bottomContainer,
