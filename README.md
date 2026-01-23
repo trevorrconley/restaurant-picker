@@ -25,7 +25,7 @@ Restaurants you’ve visited recently are **less likely** to be selected, while 
 | Backend | Node.js, Express |
 | Database | PostgreSQL |
 | ORM / Query Layer | `pg` (native PostgreSQL driver) |
-| Frontend | TBD (planned for future — possibly React) |
+| Frontend | React-Native (Expo) |
 | Dev Environment | Docker (WIP) |
 
 ---
