@@ -9,7 +9,8 @@ const {
 } = require('./restaurantSelector');
 const {
   createUser,
-  addRestaurant
+  addRestaurant,
+  getRestaurantByName,
 } = require('./user.js');
 
 const cors = require('cors');
@@ -60,13 +61,22 @@ app.post('/restaurants/:restaurantId/visit', async (req, res) => {
 
 // Add planned visits
 app.post('/restaurants/planned', async (req, res) => {
-  const { userId, restaurantIds } = req.body;
+  const { userId, restaurantIds, restaurantName } = req.body;
 
   if (!userId || !Array.isArray(restaurantIds)) {
     return res.status(400).send('Invalid request');
   }
 
   try {
+    if (restaurantIds.length == 0) {
+      // check for restaurant name. if not presented, return error
+      if (restaurantName == null) { 
+        res.json({ success: false})
+      } else {
+        // look up restaurant by name to retrieve the id
+        const restaurant = await getRestaurantByName(restaurantName);
+      }
+    }
     await addPlannedVisits(userId, restaurantIds);
     res.json({ success: true, planned: restaurantIds });
   } catch (err) {

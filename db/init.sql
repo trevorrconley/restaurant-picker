@@ -34,3 +34,12 @@ CREATE TABLE user_planned_visits (
     PRIMARY KEY(user_id, restaurant_id),
     FOREIGN KEY (restaurant_id) REFERENCES restaurants(restaurant_id)
 );
+
+
+-- queries
+-- list out all restaurants (can be done by any user, unique by name: add location at some point?)
+-- retrieve all visits for a user, done by user id
+-- retrieve a suggested restaurant, performed with user id, user id & cuisine
+    -- can return a restaurant, or just a cuisine
+-- add a visit for a user, user id and restaurant id
+    -- adding visit can pass in restaurant id or will create restaurant id if restaurant doesn't exist

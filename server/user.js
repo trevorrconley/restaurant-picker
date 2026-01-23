@@ -42,7 +42,26 @@ async function addRestaurant(name, cuisine) {
     }
 }
 
+async function getRestaurantByName(name) {
+    try {
+        const params = [name];
+        const result = await pool.query(
+            `SELECT
+                r.name,
+                r.restaurant_id,
+                r.cuisine,
+            FROM restaurants r
+            WHERE ($1::text IS NULL OR r.name == $1::text)`
+        , params);
+
+        return { id: result.restaurant_id, name: result.name, cuisine: result.cuisine };
+    } catch (err) {
+        throw new Error('Unable to get restaurant by name.');
+    }
+}
+
 module.exports = {
   createUser,
   addRestaurant,
+  getRestaurantByName,
 };
