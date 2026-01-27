@@ -1,19 +1,17 @@
 import dotenv from "dotenv";
 
+const express = require('express');
+
 dotenv.config();
 
 const app = express();
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`API running on port ${port}`);
-});
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
 });
 
-const express = require('express');
 const {
   getWeightedRestaurants,
   selectWeighted,
@@ -163,4 +161,6 @@ app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok" });
 });
 
-app.listen(3000, () => console.log('Server running on port 3000'));
+app.listen(port, () => {
+  console.log(`API running on port ${port}`);
+});

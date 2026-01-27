@@ -5,7 +5,7 @@ import { Restaurant } from '@/components/restaurant';
 import { styles, buttons } from '@/styles/global';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 
-const API_URL = `${process.env.EXPO_PUBLIC_API_BASE_URL}/restaurants/suggest/1`; // 👈 replace with your LAN IP
+const API_URL = `${process.env.EXPO_PUBLIC_API_BASE_URL!}/restaurants/suggest/1`; // 👈 replace with your LAN IP
 
 export default function Picker() {
   const [suggestion, setSuggestion] = useState([]);
