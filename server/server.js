@@ -1,16 +1,24 @@
-import dotenv from "dotenv";
-
+const dotenv = require('dotenv');
 const express = require('express');
+const cors = require('cors');
+const { Client } = require('pg');
 
 dotenv.config();
 
-const app = express();
+// Enforce required environment variables
+const requiredEnv = ["DATABASE_URL", "PORT"];
+requiredEnv.forEach((v) => {
+  if (!process.env[v]) throw new Error(`Environment variable ${v} is required`);
+});
 
+const app = express();
 const port = process.env.PORT || 3000;
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
 });
+
+client.connect().then(() => console.log("Database connected")).catch(err => console.error(err));
 
 const {
   getWeightedRestaurants,
@@ -25,8 +33,6 @@ const {
   addRestaurant,
   getRestaurantByName,
 } = require('./user.js');
-
-const cors = require('cors');
 
 app.use(cors()); // ✅ enable CORS for all routes
 app.use(express.json());
