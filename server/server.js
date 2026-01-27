@@ -2,9 +2,15 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const app = express();
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`API running on port ${port}`);
+});
+
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
 });
 
 const express = require('express');
@@ -24,7 +30,6 @@ const {
 
 const cors = require('cors');
 
-const app = express();
 app.use(cors()); // ✅ enable CORS for all routes
 app.use(express.json());
 
