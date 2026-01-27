@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start-local": "node server.js",
+    "build": "tsc",
+    "db:init": "node initDb.js",
+    "db:migrate": "ts-node db/run.ts",
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "build": "tsc"
+    "start-local": "node server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
