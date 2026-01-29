@@ -97,7 +97,9 @@ async function getAllRestaurants() {
   `;
 
   try {
+    console.log("About to query DB");
     const result = await pool.query(query);
+    console.log("Query finished");
     return result.rows; // returns an array of restaurants
   } catch (err) {
     console.error('Error fetching restaurants from db:', err);
