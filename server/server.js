@@ -34,7 +34,12 @@ const {
   getRestaurantByName,
 } = require('./user.js');
 
-app.use(cors()); // ✅ enable CORS for all routes
+app.use(cors({
+  origin: [
+    "https://dxxxx.cloudfront.net",
+    "http://localhost:19006" // Expo web local
+  ]
+}));
 app.use(express.json());
 
 // Suggest a restaurant
