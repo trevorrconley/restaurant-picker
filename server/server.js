@@ -36,7 +36,7 @@ const {
 
 app.use(cors({
   origin: [
-    "https://dxxxx.cloudfront.net",
+    "https://d2vskj9ejxccpa.cloudfront.net",
     "http://localhost:19006" // Expo web local
   ]
 }));
